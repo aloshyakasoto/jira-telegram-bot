@@ -41,3 +41,6 @@ next-env.d.ts
 
 # Ngrok
 ngrok.yml
+
+# Logs
+logs

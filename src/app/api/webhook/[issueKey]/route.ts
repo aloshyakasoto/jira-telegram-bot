@@ -5,11 +5,16 @@ export async function POST(req: NextRequest, { params: { issueKey } }: { params:
   const secretToken = process.env.JIRA_SECRET_TOKEN
   const signature = req.headers.get('X-Hub-Signature')
 
+  console.log('Secret Token:', secretToken)
+  console.log('Signature:', signature)
+
   if (!secretToken) {
+    console.error('Forbidden: Missing secret token in ENV')
     return NextResponse.json({ message: 'Forbidden: Missing secret token in ENV' }, { status: 500 })
   }
 
   if (!signature) {
+    console.error('Forbidden: Missing signature')
     return NextResponse.json({ message: 'Forbidden: Missing signature' }, { status: 403 })
   }
 
@@ -21,7 +26,7 @@ export async function POST(req: NextRequest, { params: { issueKey } }: { params:
     // Return a success response
     return NextResponse.json({ message: 'Event received successfully' }, { status: 200 })
   } else {
-    // Return a forbidden response if the signatures don't match
+    console.error('Forbidden: Invalid signature')
     return NextResponse.json({ message: 'Forbidden: Invalid signature' }, { status: 403 })
   }
 }

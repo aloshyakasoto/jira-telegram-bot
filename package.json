@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "ngrok": "npx ngrok http 3000 --config=./ngrok.yml",
+    "dev:ngrok": "yarn dev & yarn ngrok",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,6 +18,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@ngrok/ngrok": "^1.4.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
