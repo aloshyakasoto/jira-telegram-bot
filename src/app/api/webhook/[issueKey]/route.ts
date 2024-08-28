@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateJiraSignature } from '@/utils/validateJiraSignature'
+import { validateSignature } from '@/utils/auth'
+import { getDebrief } from '@/utils/issue'
+import { sendTelegramMessage } from '@/utils/telegram'
 
 export async function POST(req: NextRequest, { params: { issueKey } }: { params: { issueKey: string } }) {
   const secretToken = process.env.JIRA_SECRET_TOKEN
   const signature = req.headers.get('X-Hub-Signature')
-
-  console.log('Secret Token:', secretToken)
-  console.log('Signature:', signature)
 
   if (!secretToken) {
     console.error('Forbidden: Missing secret token in ENV')
@@ -20,8 +19,12 @@ export async function POST(req: NextRequest, { params: { issueKey } }: { params:
 
   const body = await req.text() // Get the raw text body for HMAC calculation
 
-  if (validateJiraSignature(secretToken, body, signature)) {
-    console.log('Signatures match. Jira Event Received:', { issueKey, body })
+  if (validateSignature(secretToken, body, signature)) {
+    const debrief = getDebrief(JSON.parse(body))
+    if (debrief) {
+      console.log(`----\n${debrief}\n----`)
+      sendTelegramMessage(debrief)
+    }
 
     // Return a success response
     return NextResponse.json({ message: 'Event received successfully' }, { status: 200 })

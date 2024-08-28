@@ -8,7 +8,7 @@ import crypto from 'crypto'
  * @param signature - The signature received from Jira in the format "sha256=<signature>".
  * @returns boolean - Returns true if the signatures match, false otherwise.
  */
-export function validateJiraSignature(secret: string, payload: string, signature: string): boolean {
+export function validateSignature(secret: string, payload: string, signature: string): boolean {
   // Check if the signature is in the correct format
   const [method, sentSignature] = signature.split('=')
 
