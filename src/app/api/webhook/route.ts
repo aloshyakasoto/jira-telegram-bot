@@ -3,7 +3,7 @@ import { validateSignature } from '@/utils/auth'
 import { getDebrief } from '@/utils/issue'
 import { sendTelegramMessage } from '@/utils/telegram'
 
-export async function POST(req: NextRequest, { params: { issueKey } }: { params: { issueKey: string } }) {
+export async function POST(req: NextRequest) {
   const secretToken = process.env.JIRA_SECRET_TOKEN
   const signature = req.headers.get('X-Hub-Signature')
 
