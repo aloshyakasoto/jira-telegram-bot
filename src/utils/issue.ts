@@ -1,19 +1,13 @@
 import { JsonResponse } from 'jira-client'
-import {
-  isAssigneeChange,
-  isDescriptionChange,
-  isPriorityChange,
-  isStatusChange,
-  isSummaryChange
-} from '@/utils/changelog'
+import { isAssigneeChange, isStatusChange } from '@/utils/changelog'
 import { composeMessage } from '@/utils/message'
 
 export function getDebrief(event: JsonResponse): string | undefined {
   if (
     isAssigneeChange(event) ||
-    isPriorityChange(event) ||
-    isSummaryChange(event) ||
-    isDescriptionChange(event) ||
+    // isPriorityChange(event) ||
+    // isSummaryChange(event) ||
+    // isDescriptionChange(event) ||
     isStatusChange(event)
   ) {
     return composeMessage(event)
