@@ -23,7 +23,7 @@ export async function POST(req: NextRequest, { params: { issueKey } }: { params:
     const debrief = getDebrief(JSON.parse(body))
     if (debrief) {
       console.log(`----\n${debrief}\n----`)
-      sendTelegramMessage(debrief)
+      await sendTelegramMessage(debrief)
     }
 
     // Return a success response
